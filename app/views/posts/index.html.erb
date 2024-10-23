@@ -1,0 +1,9 @@
+<!-- app/views/posts/index.html.erb -->
+<h1>TheRialNews</h1>
+<% @posts.each do |post| %>
+  <h2><%= link_to post.title, post %></h2>
+  <p><%= truncate(post.body, length: 100) %></p>
+<% end %>
+<% if user_signed_in? %>
+  <%= link_to 'Nuevo Post', new_post_path %>
+<% end %>

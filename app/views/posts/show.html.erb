@@ -1,0 +1,23 @@
+<!-- app/views/posts/show.html.erb -->
+<h1><%= @post.title %></h1>
+<p><%= @post.body %></p>
+
+<h3>Comentarios:</h3>
+<% @post.comments.each do |comment| %>
+  <p><strong><%= comment.user.email %>:</strong> <%= comment.body %></p>
+  <% if current_user&.admin? %>
+    <%= link_to 'Eliminar Comentario', post_comment_path(@post, comment), method: :delete %>
+  <% end %>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= form_with(model: [@post, @comment], local: true) do |f| %>
+    <p>
+      <%= f.label :body %><br>
+      <%= f.text_area :body %>
+    </p>
+    <%= f.submit 'Agregar Comentario' %>
+  <% end %>
+<% else %>
+  <p><%= link_to 'Inicia sesión', new_user_session_path %> para comentar.</p>
+<% end %>
